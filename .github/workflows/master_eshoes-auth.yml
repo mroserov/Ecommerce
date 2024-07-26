@@ -11,10 +11,14 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: eshoes-auth
+  AZURE_WEBAPP_PACKAGE_PATH: '.'
   
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
       - uses: actions/checkout@v4
@@ -28,28 +32,7 @@ jobs:
         run: dotnet build ./Infraestructure/Ecommerce.Authentication/Ecommerce.Authentication.Api/Ecommerce.Authentication.Api.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish ./Infraestructure/Ecommerce.Authentication/Ecommerce.Authentication.Api/Ecommerce.Authentication.Api.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
-        with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
-
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: .net-app
+        run: dotnet publish ./Infraestructure/Ecommerce.Authentication/Ecommerce.Authentication.Api/Ecommerce.Authentication.Api.csproj -c Release -o ${{env.AZURE_WEBAPP_PACKAGE_PATH}}/myapp
       
       - name: Login to Azure
         uses: azure/login@v2
@@ -64,4 +47,4 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           slot-name: 'Production'
-          package: /usr/share/dotnet/myapp
+          package: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}/myapp
