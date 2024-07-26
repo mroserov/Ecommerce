@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  authentication.api:
+    container_name: authentication.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=authentication-db;Database=AuthenticationDb;User Id=sa;Password=Sqlserver123**;TrustServerCertificate=true
+    ports:
+      - "5000:8080"
+    depends_on:
+      - authentication-db
+
+  authentication-db:
+    container_name: authentication-db
+    environment:
+      SA_PASSWORD: "Sqlserver123**"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - authenticationdb_data:/var/opt/mssql
+
+volumes:
+  authenticationdb_data:

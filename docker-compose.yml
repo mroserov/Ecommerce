@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  authentication.api:
+    image: authentication.api
+    build:
+      context: Infraestructure/Ecommerce.Authentication/.
+      dockerfile: Ecommerce.Authentication.Api/Dockerfile
+
+  authentication-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
