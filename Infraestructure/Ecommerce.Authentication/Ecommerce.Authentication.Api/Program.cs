@@ -13,6 +13,9 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Load environment variables
+builder.Configuration.AddEnvironmentVariables();
+
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -76,9 +79,16 @@ var app = builder.Build();
 // Apply migrations and ensure database is created
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    dbContext.Database.EnsureCreated();
-    dbContext.Database.Migrate();
+    try
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        dbContext.Database.EnsureCreated();
+        dbContext.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("EnsureCreatedDataBase: ", ex.ToString());
+    }
 }
 
 // Configure the HTTP request pipeline.
