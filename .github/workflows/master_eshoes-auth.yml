@@ -61,5 +61,5 @@ jobs:
         with:
           app-name: 'eshoes-auth'
           slot-name: 'Production'
-          package: .
+          package: Infraestructure/Ecommerce.Authentication/Ecommerce.Authentication.Api/.
           
