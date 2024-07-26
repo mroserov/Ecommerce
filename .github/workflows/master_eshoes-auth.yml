@@ -9,6 +9,9 @@ on:
       - master
   workflow_dispatch:
 
+env:
+  AZURE_WEBAPP_NAME: eshoes-auth
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -59,7 +62,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'eshoes-auth'
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
           slot-name: 'Production'
-          package: ./Infraestructure/Ecommerce.Authentication/Ecommerce.Authentication.Api
+          package: ${{env.DOTNET_ROOT}}/myapp
           
