@@ -20,8 +20,8 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write  # Permiso para solicitar el JWT
-      contents: read   # Permiso para leer los contenidos del repositorio (necesario para checkout)
+      id-token: write  # To get JWT
+      contents: read   # To read repository (checkout)
 
     steps:
       - uses: actions/checkout@v4
