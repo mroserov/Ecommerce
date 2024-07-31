@@ -4,12 +4,98 @@ services:
   authentication.api:
     container_name: authentication.api
     environment:
+      - ASPNETCORE_HTTP_PORTS=80
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Server=authentication-db;Database=AuthenticationDb;User Id=sa;Password=Sqlserver123**;TrustServerCertificate=true
+      - Jwt__Key=kEio6WZ4DphFXhED+Qq7+p9G7MKrT5gYW1EfaWJ4IbmA=ey
+      - Jwt__Issuer=your_issuer
+      - Jwt__Audience=your_audience
     ports:
-      - "5000:8080"
+      - "8091:80"
     depends_on:
       - authentication-db
+    networks:
+      - ecommerce-network
+
+  catalog.api:
+    container_name: catalog.api
+    environment:
+      - ASPNETCORE_HTTP_PORTS=80
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=catalog-db;Database=CatalogDb;User Id=sa;Password=Sqlserver123**;TrustServerCertificate=true
+      - Jwt__Key=kEio6WZ4DphFXhED+Qq7+p9G7MKrT5gYW1EfaWJ4IbmA=ey
+      - Jwt__Issuer=your_issuer
+      - Jwt__Audience=your_audience
+    ports:
+      - "8092:80"
+    depends_on:
+      - authentication.api
+      - authentication-db
+    networks:
+      - ecommerce-network
+
+  basket.api:
+    container_name: basket.api
+    ports:
+      - "8093:80"
+    depends_on:
+      - redis
+      - catalog.api
+    environment:
+      - ASPNETCORE_HTTP_PORTS=80
+      - Redis__Configuration=redis:6379
+    networks:
+      - ecommerce-network
+
+  orders.api:
+    container_name: orders.api
+    ports:
+      - "8094:80"
+    depends_on:
+      - orders-db
+      - basket.api
+      - catalog.api
+    environment:
+      - ASPNETCORE_HTTP_PORTS=80
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=orders-db;Database=OrdersDb;User Id=sa;Password=Sqlserver123**;TrustServerCertificate=true
+    networks:
+      - ecommerce-network
+
+  gateway.api:
+    container_name: gateway.api
+    environment:
+      - ASPNETCORE_HTTP_PORTS=80
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Jwt__Key=kEio6WZ4DphFXhED+Qq7+p9G7MKrT5gYW1EfaWJ4IbmA=ey
+      - Jwt__Issuer=your_issuer
+      - Jwt__Audience=your_audience
+    ports:
+      - "8090:80"
+    depends_on:
+      - catalog.api
+    networks:
+      - ecommerce-network
+
+  frontend:
+    container_name: frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - gateway.api
+      - catalog.api
+      - basket.api
+    networks:
+      - ecommerce-network
+
+  redis:
+    container_name: "redis-db"
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/var/opt/redis
+    networks:
+      - ecommerce-network
 
   authentication-db:
     container_name: authentication-db
@@ -20,6 +106,39 @@ services:
       - "1433:1433"
     volumes:
       - authenticationdb_data:/var/opt/mssql
+    networks:
+      - ecommerce-network
+  
+  catalog-db:
+    container_name: catalog-db
+    environment:
+      SA_PASSWORD: "Sqlserver123**"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1434:1433"
+    volumes:
+      - catalog_data:/var/opt/mssql
+    networks:
+      - ecommerce-network
+  
+  orders-db:
+    container_name: orders-db
+    environment:
+      SA_PASSWORD: "Sqlserver123**"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1435:1433"
+    volumes:
+      - orders_data:/var/opt/mssql
+    networks:
+      - ecommerce-network
 
 volumes:
   authenticationdb_data:
+  catalog_data:
+  orders_data:  
+  redis_data:  
+
+networks:
+  ecommerce-network:
+    driver: bridge

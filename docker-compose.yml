@@ -4,8 +4,48 @@ services:
   authentication.api:
     image: authentication.api
     build:
-      context: Infraestructure/Ecommerce.Authentication/.
-      dockerfile: Ecommerce.Authentication.Api/Dockerfile
+      context: .
+      dockerfile: Infrastructure/Ecommerce.Authentication/Ecommerce.Authentication.Api/Dockerfile
+
+  catalog.api:
+    image: catalog.api
+    build:
+      context: .
+      dockerfile: Services/Ecommerce.Catalog/Ecommerce.Catalog.Api/Dockerfile
+
+  basket.api:
+    image: basket.api
+    build:
+      context: .
+      dockerfile: Services/Ecommerce.Basket/Ecommerce.Basket.Api/Dockerfile
+
+  orders.api:
+    image: orders.api
+    build:
+      context: .
+      dockerfile: Services/Ecommerce.Orders/Ecommerce.Orders.Api/Dockerfile
+
+  gateway.api:
+    image: gateway.api
+    build:
+      context: .
+      dockerfile: Gateway/Ecommerce.Gateway.Api/Dockerfile
+
+  frontend:
+    image: frontend  
+    build:
+      context: frontend/.
+      dockerfile: Dockerfile
+      
+  redis:
+    image: "redis:latest"
 
   authentication-db:
     image: mcr.microsoft.com/mssql/server:2019-latest
+
+  catalog-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+  orders-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
