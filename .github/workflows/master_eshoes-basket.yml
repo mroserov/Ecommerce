@@ -9,10 +9,21 @@ on:
       - master
   workflow_dispatch:
 
-jobs:
-  build:
-    runs-on: windows-latest
+env:
+  AZURE_WEBAPP_NAME: eshoes-basket
+  AZURE_WEBAPP_PACKAGE_PATH: '.'
 
+jobs:
+  build-deploy:
+    runs-on: 
+      ubuntu-latest
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write  # To get JWT
+      contents: read   # To read repository (checkout)
+      
     steps:
       - uses: actions/checkout@v4
 
@@ -22,31 +33,10 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build ./Services/Ecommerce.Basket/Ecommerce.Basket.Api/Ecommerce.Basket.Api.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
-        with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
-
-  deploy:
-    runs-on: windows-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
-
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: .net-app
+        run: dotnet publish ./Services/Ecommerce.Basket/Ecommerce.Basket.Api/Ecommerce.Basket.Api.csproj -c Release -o ${{env.AZURE_WEBAPP_PACKAGE_PATH}}/myapp
       
       - name: Login to Azure
         uses: azure/login@v2
@@ -55,11 +45,18 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_1F5427BFAA2342969D97397FCB4929AC }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_223BEE566E1B4606A0304367A9C85A2E }}
 
+      - name: App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: '${{env.AZURE_WEBAPP_PACKAGE_PATH}}/myapp/appsettings.json'
+        env:
+          Redis.DefaultConnection: ${{ secrets.REDIS_CONNECTION }}
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'eshoes-basket'
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
           slot-name: 'Production'
-          package: .
+          package: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}/myapp
           
