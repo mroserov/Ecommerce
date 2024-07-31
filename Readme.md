@@ -189,8 +189,6 @@ Clean Architecture
 https://rahulsahay19.medium.com/how-clean-architecture-can-be-used-to-build-more-testable-maintainable-and-evolvable-applications-2f9f15236e3b
 https://www.linkedin.com/pulse/demo-celan-architecture-cqrs-repository-pattern-net-web-edin-%C5%A1ahbaz/
 
-Server=customerDB.mssql.somee.com;Database=customerDB;User Id=mroserov_SQLLogin_1;Password=lcbm9ru1le;TrustServerCertificate=true
-
 # Azure API
 ## Authentication
 Authentication api in Azure Service via GithubAction [Authentication](https://eshoes-auth.azurewebsites.net/swagger/index.html)
