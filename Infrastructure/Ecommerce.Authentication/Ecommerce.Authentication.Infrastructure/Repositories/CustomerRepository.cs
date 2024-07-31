@@ -14,10 +14,19 @@ namespace Ecommerce.Authentication.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(Customer entity)
+        public async Task<Customer?> AddAsync(Customer entity)
         {
-            await _context.Customers.AddAsync(entity);
+            var id = await _context.Customers.AddAsync(entity);
             await _context.SaveChangesAsync();
+
+            if (id != null)
+            {
+                return id.Entity;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task DeleteAsync(Customer entity)
@@ -31,12 +40,12 @@ namespace Ecommerce.Authentication.Infrastructure.Repositories
             return await _context.Customers.ToListAsync();
         }
 
-        public async Task<Customer> GetByIdAsync(Guid id)
+        public async Task<Customer?> GetByIdAsync(Guid id)
         {
             return await _context.Customers.FindAsync(id);
         }
 
-        public async Task<Customer> GetByEmailAsync(string email)
+        public async Task<Customer?> GetByEmailAsync(string email)
         {
             return await _context.Customers.FirstOrDefaultAsync(c => c.Email == email);
         }

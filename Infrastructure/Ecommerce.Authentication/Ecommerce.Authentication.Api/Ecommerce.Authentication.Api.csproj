@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.7" />
@@ -16,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Ecommerce.Common\Ecommerce.Common.csproj" />
     <ProjectReference Include="..\Ecommerce.Authentication.Application\Ecommerce.Authentication.Application.csproj" />
     <ProjectReference Include="..\Ecommerce.Authentication.Domain\Ecommerce.Authentication.Domain.csproj" />
     <ProjectReference Include="..\Ecommerce.Authentication.Infrastructure\Ecommerce.Authentication.Infrastructure.csproj" />

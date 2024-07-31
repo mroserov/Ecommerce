@@ -1,5 +1,6 @@
-﻿using Ecommerce.Authentication.Api.Requests;
-using Ecommerce.Authentication.Application.Interfaces;
+﻿using Ecommerce.Authentication.Application.Interfaces;
+using Ecommerce.Authentication.Domain.Entities;
+using Ecommerce.Authentication.Domain.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,10 +34,10 @@ namespace Ecommerce.Authentication.Api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        public async Task<ActionResult<Customer>> Register([FromBody] RegisterRequest request)
         {
-            await _authenticationService.RegisterAsync(request.FirstName, request.LastName, request.Email, request.PhoneNumber, request.Address, request.Password);
-            return Ok();
+            var customer = await _authenticationService.RegisterAsync(request);
+            return Ok(customer);
         }
 
         [Authorize]

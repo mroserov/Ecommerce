@@ -1,12 +1,9 @@
 ﻿using Ecommerce.Authentication.Application.Interfaces;
 using Ecommerce.Authentication.Domain.Entities;
 using Ecommerce.Authentication.Domain.Interfaces;
-using Microsoft.Extensions.Configuration;
+using Ecommerce.Authentication.Domain.Requests;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Ecommerce.Authentication.Application.Services
 {
@@ -44,9 +41,9 @@ namespace Ecommerce.Authentication.Application.Services
             return token;
         }
 
-        public async Task RegisterAsync(string firstName, string lastName, string email, string phoneNumber, string address, string password)
+        public async Task<CustomerResponse> RegisterAsync(RegisterRequest customerRequest)
         {
-            var userExist = await _unitOfWork.Customers.GetByEmailAsync(email);
+            var userExist = await _unitOfWork.Customers.GetByEmailAsync(customerRequest.Email);
 
             if (userExist != null)
             {
@@ -55,19 +52,29 @@ namespace Ecommerce.Authentication.Application.Services
             var customer = new Customer
             {
                 Id = Guid.NewGuid(),
-                FirstName = firstName,
-                LastName = lastName,
-                Email = email,
-                PhoneNumber = phoneNumber,
-                Address = address,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
+                FirstName = customerRequest.FirstName,
+                LastName = customerRequest.LastName,
+                Email = customerRequest.Email,
+                PhoneNumber = customerRequest.PhoneNumber,
+                Address = customerRequest.Address,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(customerRequest.Password),
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 RefreshToken = _tokenService.GenerateRefreshToken(),
                 RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7)
             };
 
-            await _unitOfWork.Customers.AddAsync(customer);
+            var customerResponse = await _unitOfWork.Customers.AddAsync(customer) ?? throw new InvalidOperationException("Error creando usuario");
+
+            return new CustomerResponse()
+            {
+                Address = customerResponse.Address,
+                FirstName = customerResponse.FirstName,
+                Email = customerResponse.Email,
+                Id = customerResponse.Id,
+                LastName = customerResponse.LastName,
+                PhoneNumber = customerResponse.PhoneNumber
+            };
         }
 
         public async Task<string?> RefreshTokenAsync(string token)

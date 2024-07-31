@@ -1,10 +1,10 @@
-﻿using Ecommerce.Authentication.Api.Middleware;
-using Ecommerce.Authentication.Application.Interfaces;
+﻿using Ecommerce.Authentication.Application.Interfaces;
 using Ecommerce.Authentication.Application.Services;
 using Ecommerce.Authentication.Domain.Entities;
 using Ecommerce.Authentication.Domain.Interfaces;
 using Ecommerce.Authentication.Infrastructure.Data;
 using Ecommerce.Authentication.Infrastructure.Repositories;
+using Ecommerce.Common.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
