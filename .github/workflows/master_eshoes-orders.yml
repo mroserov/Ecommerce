@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_WEBAPP_NAME: eshoes-catalog
+  AZURE_WEBAPP_NAME: eshoes-orders
   AZURE_WEBAPP_PACKAGE_PATH: '.'
 
 jobs:
