@@ -197,5 +197,8 @@ Authentication api in Azure Service via GithubAction [Authentication](https://es
 Basket api in Azure Service via GithubAction [Basket](https://eshoes-basket-fzdjd8dggsd2h2cy.eastus-01.azurewebsites.net/swagger/index.html)
 
 ## Catalog API
-Catalog api in Azure Service via GithubAction [Catalog](https://eshoes-catalog-evgfabcadxadgvfv.eastus-01.azurewebsites.net//swagger/index.html)
+Catalog api in Azure Service via GithubAction [Catalog](https://eshoes-catalog-evgfabcadxadgvfv.eastus-01.azurewebsites.net/swagger/index.html)
 
+
+## Orders API
+Orders api in Azure Service via GithubAction [Catalog](https://eshoes-orders.azurewebsites.net/swagger/index.html)

@@ -9,9 +9,19 @@ on:
       - master
   workflow_dispatch:
 
+env:
+  AZURE_WEBAPP_NAME: eshoes-catalog
+  AZURE_WEBAPP_PACKAGE_PATH: '.'
+
 jobs:
-  build:
-    runs-on: windows-latest
+  build-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write  # To get JWT
+      contents: read   # To read repository (checkout)
 
     steps:
       - uses: actions/checkout@v4
@@ -22,31 +32,16 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build ./Services/Ecommerce.Orders/Ecommerce.Orders.Api/Ecommerce.Orders.Api.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish ./Services/Ecommerce.Orders/Ecommerce.Orders.Api/Ecommerce.Orders.Api.csproj -c Release -o ${{env.AZURE_WEBAPP_PACKAGE_PATH}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
-
-  deploy:
-    runs-on: windows-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
-
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: .net-app
       
       - name: Login to Azure
         uses: azure/login@v2
@@ -55,11 +50,18 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_239381C08ABB4F92AA801187775016BE }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_98993ECD74D94E6191D5EC3225C4FECA }}
 
+      - name: App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: '${{env.AZURE_WEBAPP_PACKAGE_PATH}}/myapp/appsettings.json'
+        env:
+          ConnectionStrings.OrdersDatabase: ${{ secrets.DB_ORDERS_CONNECTION_STRING }}
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'eshoes-orders'
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
           slot-name: 'Production'
-          package: .
+          package: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}/myapp
           

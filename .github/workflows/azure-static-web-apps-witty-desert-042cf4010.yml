@@ -1,4 +1,4 @@
-name: Azure Static Web Apps CI/CD
+name: React App CI/CD
 
 on:
   push:
@@ -30,7 +30,13 @@ jobs:
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
           app_location: "./frontend" # App source code path
           api_location: "" # Api source code path - optional
-          output_location: "build" # Built app content directory - optional
+          output_location: "dist" # Built app content directory - optional
+          app_build_command: 'npm run build'
+        env:
+          NODE_VERSION: 20.15.1
+          VITE_APP_BASKET_URL: https://eshoes-basket-fzdjd8dggsd2h2cy.eastus-01.azurewebsites.net/api/ShoppingCart
+          VITE_APP_CATALOG_URL: https://eshoes-catalog-evgfabcadxadgvfv.eastus-01.azurewebsites.net/graphql
+          VITE_APP_ORDERS_URL: https://eshoes-orders.azurewebsites.net/api/Orders
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
