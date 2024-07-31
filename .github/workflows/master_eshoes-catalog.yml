@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - eshoes-catalog
+name: eshoes-catalog deploy .netCore Api to Azure
 
 on:
   push:
@@ -55,9 +55,9 @@ jobs:
         with:
           files: '${{env.AZURE_WEBAPP_PACKAGE_PATH}}/myapp/appsettings.json'
         env:
-          ConnectionStrings.DefaultConnection: ${{ secrets.DB_CATALOG_CONNECTION_STRING }}
-          AzureStorage.ConnectionString: ${{ secrets.AZURE_CONNECTION }}
-          AzureStorage.ShareName: ${{ secrets.AZURE_SHARE_NAME }}
+          ConnectionStrings.CatalogDatabase: ${{secrets.DB_CATALOG_CONNECTION_STRING}}
+          AzureStorage.ConnectionString: ${{secrets.AZURE_CONNECTION}}
+          AzureStorage.ShareName: ${{secrets.AZURE_SHARE_NAME}}
           
       - name: Deploy to Azure Web App
         id: deploy-to-webapp

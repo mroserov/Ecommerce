@@ -1,4 +1,4 @@
-name: React App CI/CD
+name: eshoes-frontend deploy ReactApp to Azure
 
 on:
   push:
