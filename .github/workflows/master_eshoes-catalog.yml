@@ -55,7 +55,7 @@ jobs:
         with:
           files: '${{env.AZURE_WEBAPP_PACKAGE_PATH}}/myapp/appsettings.json'
         env:
-          ConnectionStrings.DefaultConnection: ${{ secrets.DB_CONNECTION_STRING }}
+          ConnectionStrings.DefaultConnection: ${{ secrets.DB_CATALOG_CONNECTION_STRING }}
           AzureStorage.ConnectionString: ${{ secrets.AZURE_CONNECTION }}
           AzureStorage.ShareName: ${{ secrets.AZURE_SHARE_NAME }}
           
