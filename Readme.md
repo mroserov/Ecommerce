@@ -5,7 +5,7 @@
 This document details the tools, frameworks, patterns, and libraries used to build our e-commerce application. The application follows a microservices architecture with a frontend in React and a backend in .Net Core.
 
 
-[![Arquitecture](https://mroserov.blob.core.windows.net/mroserov/EcommerceDiagram.png)](https://www.digitalocean.com/products/app-platform)
+[![Arquitecture](https://mroserov.blob.core.windows.net/mroserov/EcommerceDiagram.png)](https://mroserov.blob.core.windows.net/mroserov/EcommerceDiagram.png)
 
 Diagram build in [Diagrams](https://app.diagrams.net/)
 
@@ -192,4 +192,10 @@ https://www.linkedin.com/pulse/demo-celan-architecture-cqrs-repository-pattern-n
 # Azure API
 ## Authentication
 Authentication api in Azure Service via GithubAction [Authentication](https://eshoes-auth.azurewebsites.net/swagger/index.html)
+
+## Basket API
+Basket api in Azure Service via GithubAction [Basket](https://eshoes-basket-fzdjd8dggsd2h2cy.eastus-01.azurewebsites.net/swagger/index.html)
+
+## Catalog API
+Catalog api in Azure Service via GithubAction [Catalog](https://eshoes-catalog-evgfabcadxadgvfv.eastus-01.azurewebsites.net//swagger/index.html)
 
