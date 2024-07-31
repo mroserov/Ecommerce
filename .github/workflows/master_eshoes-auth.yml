@@ -32,10 +32,10 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build ./Infraestructure/Ecommerce.Authentication/Ecommerce.Authentication.Api/Ecommerce.Authentication.Api.csproj --configuration Release
+        run: dotnet build ./Infrastructure/Ecommerce.Authentication/Ecommerce.Authentication.Api/Ecommerce.Authentication.Api.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish ./Infraestructure/Ecommerce.Authentication/Ecommerce.Authentication.Api/Ecommerce.Authentication.Api.csproj -c Release -o ${{env.AZURE_WEBAPP_PACKAGE_PATH}}/myapp
+        run: dotnet publish ./Infrastructure/Ecommerce.Authentication/Ecommerce.Authentication.Api/Ecommerce.Authentication.Api.csproj -c Release -o ${{env.AZURE_WEBAPP_PACKAGE_PATH}}/myapp
       
       - name: Login to Azure
         uses: azure/login@v2
