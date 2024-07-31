@@ -6,6 +6,9 @@ export const getShoppingCart = async (userId) => {
         const response = await basketApi.get(`/${userId}`);
         return response.data;
     } catch (error) {
+        if (error.response && error.response.status === 404) {
+            return {}; // Return null if the cart is not found
+        }
         console.error('Error fetching shopping cart', error);
         throw error;
     }

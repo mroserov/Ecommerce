@@ -47,7 +47,14 @@ const CartList = () => {
   }
 
   const handleRemove = (id) => {
-    dispatch(removeFromCart(id));
+    dispatch(removeFromCart(id)).then((action)=>{
+      console.log(action);
+      dispatch(showSnackbar({
+        title: 'Remove product',
+        message: `Product was removed from your cart.`,
+        severity: 'success',
+      }));
+    });
   };
 
   const handleClearCart = () => {
@@ -55,7 +62,13 @@ const CartList = () => {
   };
 
   const handleQuantityChange = (product, quantity) => {
-    dispatch(updateCartQuantity({ ...product, quantity }));
+    dispatch(updateCartQuantity({ ...product, quantity })).then((action)=>{
+      dispatch(showSnackbar({
+        title: 'Update cart',
+        message: 'Cart was successfully updated',
+        severity: 'success',
+      }));
+    });
   };
 
   const handleProcessOrder = async () => {

@@ -37,7 +37,7 @@ const ProductList = () => {
       }
     });
     //dispatch(fetchCart());
-    dispatch(fetchCart()).then((action)=>{
+    dispatch(fetchCart()).then((action) => {
       if (action.type === 'cart/fetchCart/fulfilled') {
         dispatch(updateStock({ products: action.payload.items }));
       }
@@ -87,13 +87,19 @@ const ProductList = () => {
         [product.id]: 1,
       }));
     } else {
-      // New quantity in inpu must be less than the stock
-      const newQuantity = (productStock - quantity) > quantity ? quantity:(productStock - quantity) ;
+      // New quantity in input must be less than the stock
+      const newQuantity = (productStock - quantity) > quantity ? quantity : (productStock - quantity);
       setQuantities((prev) => ({
         ...prev,
         [product.id]: newQuantity,
       }));
-      dispatch(addToCart({ ...product, quantity }));
+      dispatch(addToCart({ ...product, quantity })).then((action) => {
+        dispatch(showSnackbar({
+          title: 'Add product',
+          message: `The product ${action.payload?.name} was added to your shopping cart.`,
+          severity: 'success',
+        }));
+      });
     }
     const products = [{ id: product.id, quantity }];
     dispatch(updateStock({ products: products }));

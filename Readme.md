@@ -9,6 +9,24 @@ This document details the tools, frameworks, patterns, and libraries used to bui
 
 Diagram build in [Diagrams](https://app.diagrams.net/)
 
+# Test the app in azure
+
+## Frontend App
+Frontend react app in Azure via GithubAction [Frontend](https://witty-desert-042cf4010.5.azurestaticapps.net/)
+
+## Basket API
+Basket api in Azure Service via GithubAction [Basket](https://eshoes-basket-fzdjd8dggsd2h2cy.eastus-01.azurewebsites.net/swagger/index.html)
+
+## Catalog API
+Catalog api in Azure Service via GithubAction [Catalog](https://eshoes-catalog-evgfabcadxadgvfv.eastus-01.azurewebsites.net/swagger/index.html)
+
+## Orders API
+Orders api in Azure Service via GithubAction [Catalog](https://eshoes-orders.azurewebsites.net/swagger/index.html)
+
+## Authentication
+Authentication api in Azure Service via GithubAction [Authentication](https://eshoes-auth.azurewebsites.net/swagger/index.html)
+
+
 ## Tools and Technologies
 
 ### Frontend
@@ -189,16 +207,3 @@ Clean Architecture
 https://rahulsahay19.medium.com/how-clean-architecture-can-be-used-to-build-more-testable-maintainable-and-evolvable-applications-2f9f15236e3b
 https://www.linkedin.com/pulse/demo-celan-architecture-cqrs-repository-pattern-net-web-edin-%C5%A1ahbaz/
 
-# Azure API
-## Authentication
-Authentication api in Azure Service via GithubAction [Authentication](https://eshoes-auth.azurewebsites.net/swagger/index.html)
-
-## Basket API
-Basket api in Azure Service via GithubAction [Basket](https://eshoes-basket-fzdjd8dggsd2h2cy.eastus-01.azurewebsites.net/swagger/index.html)
-
-## Catalog API
-Catalog api in Azure Service via GithubAction [Catalog](https://eshoes-catalog-evgfabcadxadgvfv.eastus-01.azurewebsites.net/swagger/index.html)
-
-
-## Orders API
-Orders api in Azure Service via GithubAction [Catalog](https://eshoes-orders.azurewebsites.net/swagger/index.html)
