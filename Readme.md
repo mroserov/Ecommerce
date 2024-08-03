@@ -1,4 +1,4 @@
-# eShop Solución Test
+# eShoes, a technically tested solution 
 
 
 ## Overview
@@ -38,8 +38,8 @@ Authentication api in Azure Service via GithubAction [Authentication](https://es
 
 ### Backend
 - **.Net Core 8**: A cross-platform, high-performance framework for building modern, cloud-based, internet-connected applications.
-- **API Gateway (Ocelot)**: A .NET API Gateway for running a microservices/API-based application. Used for request routing and load balancing.
-- **Load Balancer**: Used for distributing network or application traffic across a number of servers.
+- **API Gateway (YARP)**: A .NET API Gateway for running a microservices/API-based application. Used for request routing and load balancing.
+- (TODO) **Load Balancer**: Used for distributing network or application traffic across a number of servers.
 
 ### Microservices Architecture
 - (TODO) **RabbitMQ**: A message broker used for communication between microservices.
@@ -59,7 +59,7 @@ Authentication api in Azure Service via GithubAction [Authentication](https://es
 - **Docker**: A platform used for developing, shipping, and running applications in containers.
 - **Elasticsearch**: A distributed, RESTful search and analytics engine used for log and event data.
 - **Serilog**: A logging library for .NET, used to log structured event data.
-- **GRPC**: A high-performance RPC framework used for communication between microservices.
+- (TODO) **GRPC**: A high-performance RPC framework used for communication between microservices.
 - **Azure Blob Storage**: A Microsoft cloud storage solution for storing large amounts of unstructured data.
 
 ## Folder Structure
@@ -77,19 +77,19 @@ Authentication api in Azure Service via GithubAction [Authentication](https://es
 - TODO **EventBus.Messages**: Manages RabbitMQ message definitions.
 
 ### Ecommerce.Authentication
-- TODO **JWT Authentication**: Manages user authentication and token generation.
+- **JWT Authentication**: Manages user authentication and token generation.(InProgeess acces from frontend)
 - **Dockerfile**: Used to containerize the authentication service.
 
 ### Ecommerce.Catalog
 - **Clean architecture**: Ensures separation of concerns.
 - **GraphQL**: Exposes a GraphQL endpoint for querying product data.
-- **GRPC Server**: Provides product stock information via gRPC.
+- (TODO) **GRPC Server**: Provides product stock information via gRPC.
 - **Dockerfile**: Used to containerize the catalog service.
 
 ### Ecommerce.Order
-- TODO **JWT Authorization**: Ensures secure access to order services.
+- (TODO) **JWT Authorization**: Ensures secure access to order services.
 - **Dockerfile**: Used to containerize the order service.
-- **GRPC Client**: Communicates with the catalog service for product stock information.
+- (TODO) **GRPC Client**: Communicates with the catalog service for product stock information.
 
 ### Ecommerce.Basket
 - **Redis**: Used for storing shopping cart data.
